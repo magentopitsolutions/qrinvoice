@@ -1,5 +1,6 @@
 {
   "name": "pitsmagento/qrinvoice",
+    "version": "1.0.0",
   "description": "Pits QR Invoice Lib",
   "require": {
      "php": "^7.3.0"
