@@ -1,0 +1,26 @@
+{
+  "name": "pits/qrinvoice",
+  "description": "Pits QR Invoice Lib",
+  "require": {
+     "php": "^7.3.0"
+  },
+  "authors": [
+    {
+      "name": "PIT Solutions",
+      "email": "info@webshopextension.com",
+      "homepage": "https://www.webshopextension.com/",
+      "role": "Developer"
+    }
+  ],
+  "type": "magento2-library",
+  "autoload": {
+    "psr-4": {
+      "Pits\\PitsQrCode\\": ""
+    }
+  },
+  "license": [
+    "afl-3.0"
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
