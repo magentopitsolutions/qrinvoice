@@ -16,6 +16,13 @@ class StructuredAddress implements AddressInterface, SelfValidatableInterface, Q
     const ADDRESS_TYPE = 'S';
 
     /**
+     * company
+     *
+     * @var string
+     */
+    private $company;
+
+    /**
      * Name or company
      *
      * @var string
@@ -75,7 +82,8 @@ class StructuredAddress implements AddressInterface, SelfValidatableInterface, Q
     }
 
     public static function createWithStreet(
-        string $name,
+        ?string $company,
+        ?string $name,
         string $street,
         ?string $buildingNumber,
         string $postalCode,
@@ -83,6 +91,7 @@ class StructuredAddress implements AddressInterface, SelfValidatableInterface, Q
         string $country
     ): self {
         $structuredAddress = new self();
+        $structuredAddress->company = $company;
         $structuredAddress->name = $name;
         $structuredAddress->street = $street;
         $structuredAddress->buildingNumber = $buildingNumber;
@@ -96,6 +105,11 @@ class StructuredAddress implements AddressInterface, SelfValidatableInterface, Q
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getCompany(): ?string
+    {
+        return $this->company;
     }
 
     public function getStreet(): ?string
@@ -125,10 +139,16 @@ class StructuredAddress implements AddressInterface, SelfValidatableInterface, Q
 
     public function getFullAddress(): string
     {
-        $address = $this->getName();
+        $address = '';
+        if ($this->getCompany()) {
+            $address = $this->getCompany() . "\n";
+        }
+        if ($this->getName()) {
+            $address .= $this->getName() . "\n";
+        }
 
         if ($this->getStreet()) {
-            $address .= "\n" . $this->getStreet();
+            $address .= $this->getStreet();
 
             if ($this->getBuildingNumber()) {
                 $address .= " " . $this->getBuildingNumber();
@@ -148,6 +168,7 @@ class StructuredAddress implements AddressInterface, SelfValidatableInterface, Q
     {
         return [
             $this->getCity() ? self::ADDRESS_TYPE : '',
+            $this->getCompany(),
             $this->getName(),
             $this->getStreet(),
             $this->getBuildingNumber(),
@@ -159,8 +180,13 @@ class StructuredAddress implements AddressInterface, SelfValidatableInterface, Q
 
     public static function loadValidatorMetadata(ClassMetadata $metadata): void
     {
+        $metadata->addPropertyConstraints('company', [
+            new Assert\Length([
+                'max' => 70
+            ])
+        ]);
+
         $metadata->addPropertyConstraints('name', [
-            new Assert\NotBlank(),
             new Assert\Length([
                 'max' => 70
             ])

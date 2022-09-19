@@ -1138,7 +1138,7 @@ class TCPDF_STATIC {
 	 * @see setHtmlVSpace()
 	 * @public static
 	 */
-	public static function fixHTMLCode($html, $default_css='', $tagvs='', $tidy_options='', &$tagvspaces) {
+	public static function fixHTMLCode($html, $default_css='', $tagvs='', $tidy_options='', &$tagvspaces='') {
 		// configure parameters for HTML Tidy
 		if ($tidy_options === '') {
 			$tidy_options = array (
@@ -1790,6 +1790,9 @@ class TCPDF_STATIC {
 	 * @public static
 	 */
 	public static function pregSplit($pattern, $modifiers, $subject, $limit=NULL, $flags=NULL) {
+        // PHP 8.1 deprecates nulls for $limit and $flags
+        $limit = $limit === null ? -1 : $limit;
+        $flags = $flags === null ? 0 : $flags;
 		// the bug only happens on PHP 5.2 when using the u modifier
 		if ((strpos($modifiers, 'u') === FALSE) OR (count(preg_split('//u', "\n\t", -1, PREG_SPLIT_NO_EMPTY)) == 2)) {
 			return preg_split($pattern.$modifiers, $subject, $limit, $flags);
@@ -1810,8 +1813,8 @@ class TCPDF_STATIC {
 	/**
 	 * Wrapper to use fopen only with local files
 	 * @param filename (string) Name of the file to open
-	 * @param $mode (string) 
-	 * @return Returns a file pointer resource on success, or FALSE on error.  
+	 * @param $mode (string)
+	 * @return Returns a file pointer resource on success, or FALSE on error.
 	 * @public static
 	 */
 	public static function fopenLocal($filename, $mode) {
@@ -1874,8 +1877,8 @@ class TCPDF_STATIC {
 	 * Wrapper for file_exists.
 	 * Checks whether a file or directory exists.
 	 * Only allows some protocols and local files.
-	 * @param filename (string) Path to the file or directory. 
-	 * @return Returns TRUE if the file or directory specified by filename exists; FALSE otherwise.  
+	 * @param filename (string) Path to the file or directory.
+	 * @return Returns TRUE if the file or directory specified by filename exists; FALSE otherwise.
 	 * @public static
 	 */
 	public static function file_exists($filename) {
@@ -1892,7 +1895,7 @@ class TCPDF_STATIC {
 	 * Reads entire file into a string.
 	 * The file can be also an URL.
 	 * @param $file (string) Name of the file or URL to read.
-	 * @return The function returns the read data or FALSE on failure. 
+	 * @return The function returns the read data or FALSE on failure.
 	 * @author Nicola Asuni
 	 * @since 6.0.025
 	 * @public static
@@ -2122,7 +2125,7 @@ class TCPDF_STATIC {
 		return $a['i'];
 	}
 
-	
+
 	/**
 	 * Array of page formats
 	 * measures are calculated in this way: (inches * 72) or (millimeters * 72 / 25.4)
@@ -2509,7 +2512,7 @@ class TCPDF_STATIC {
 	 * @since 5.0.010 (2010-05-17)
 	 * @public static
 	 */
-	public static function setPageBoxes($page, $type, $llx, $lly, $urx, $ury, $points=false, $k, $pagedim=array()) {
+	public static function setPageBoxes($page, $type, $llx, $lly, $urx, $ury, $points=false, $k = NULL, $pagedim=array()) {
 		if (!isset($pagedim[$page])) {
 			// initialize array
 			$pagedim[$page] = array();

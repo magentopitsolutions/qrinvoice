@@ -243,7 +243,7 @@ abstract class Enum implements \JsonSerializable
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
      * @psalm-pure
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->getValue();
     }
