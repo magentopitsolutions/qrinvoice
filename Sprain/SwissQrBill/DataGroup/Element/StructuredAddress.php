@@ -166,10 +166,14 @@ class StructuredAddress implements AddressInterface, SelfValidatableInterface, Q
 
     public function getQrCodeData(): array
     {
+        if($this->getCompany())
+            $payer = $this->getCompany();
+        else
+            $payer = $this->getName();
+
         return [
             $this->getCity() ? self::ADDRESS_TYPE : '',
-            $this->getCompany(),
-            $this->getName(),
+            $payer,
             $this->getStreet(),
             $this->getBuildingNumber(),
             $this->getPostalCode(),
