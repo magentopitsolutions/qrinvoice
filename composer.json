@@ -1,9 +1,6 @@
 {
   "name": "pitsmagento/qrinvoice",
   "description": "Pits QR Invoice Lib",
-  "require": {
-     "php": ">=7.3.0"
-  },
   "authors": [
     {
       "name": "PIT Solutions",
