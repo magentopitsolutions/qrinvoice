@@ -211,6 +211,24 @@ class QrBill implements SelfValidatableInterface
 
     private function getQrCodeContent(): string
     {
+        $name =  $this->getCreditor()->getName();
+        $street = $this->getCreditor()->getStreet();
+        $buildingNumber = $this->getCreditor()->getBuildingNumber();
+        $postalcode = $this->getCreditor()->getPostalcode();
+        $city = $this->getCreditor()->getCity();
+        $country = $this->getCreditor()->getCountry();
+
+        $test =  new StructuredAddress();
+        $this->setCreditor(
+            $test->createWithStreet('',
+                $name,
+                $street,
+                $buildingNumber,
+                $postalcode,
+                $city,
+                $country
+            ));
+
         $elements = [
             $this->getHeader(),
             $this->getCreditorInformation(),

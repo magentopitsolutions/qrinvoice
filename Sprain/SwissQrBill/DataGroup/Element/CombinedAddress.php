@@ -23,6 +23,22 @@ class CombinedAddress implements AddressInterface, SelfValidatableInterface, QrC
     private $name;
 
     /**
+     * Street / P.O. box
+     *
+     * May not include building or house number.
+     *
+     * @var string
+     */
+    private $street;
+
+    /**
+     * Building number
+     *
+     * @var string
+     */
+    private $buildingNumber;
+
+    /**
      * Address line 1
      *
      * Street and building number or P.O. Box
@@ -41,6 +57,24 @@ class CombinedAddress implements AddressInterface, SelfValidatableInterface, QrC
     private $addressLine2;
 
     /**
+     * Postcode
+     *
+     * Postal code
+     *
+     * @var string
+     */
+    private $postalcode;
+
+    /**
+     * City
+     *
+     * city
+     *
+     * @var string
+     */
+    private $city;
+
+    /**
      * Country (ISO 3166-1 alpha-2)
      *
      * @var string
@@ -51,13 +85,25 @@ class CombinedAddress implements AddressInterface, SelfValidatableInterface, QrC
         string $name,
         ?string $addressLine1,
         string $addressLine2,
-        string $country
+        string $country,
+        string $postalcode = NULL,
+        string $city = NULL,
+        string $street = NULL,
+        ?string $buildingNumber= NULL
     ): self {
         $combinedAddress = new self();
         $combinedAddress->name = $name;
         $combinedAddress->addressLine1 = $addressLine1;
         $combinedAddress->addressLine2 = $addressLine2;
         $combinedAddress->country = strtoupper($country);
+
+        $text = explode("<!Delimiter!>",$addressLine2 );
+        $combinedAddress->postalcode = $text[0];
+        $combinedAddress->city = $text[1];
+
+        $combinedAddress->street =$addressLine1;
+        $combinedAddress->buildingNumber = $text[2];
+
 
         return $combinedAddress;
     }
@@ -77,9 +123,29 @@ class CombinedAddress implements AddressInterface, SelfValidatableInterface, QrC
         return $this->addressLine2;
     }
 
+    public function getPostalCode(): ?string
+    {
+        return $this->postalcode;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
     public function getCountry(): ?string
     {
         return $this->country;
+    }
+
+    public function getStreet(): ?string
+    {
+        return $this->street;
+    }
+
+    public function getBuildingNumber(): ?string
+    {
+        return $this->buildingNumber;
     }
 
     public function getFullAddress(): string
