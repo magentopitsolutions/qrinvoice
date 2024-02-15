@@ -1836,6 +1836,13 @@ class tcpdf {
 	 */
 	protected $gdgammacache = array();
 
+	/**
+     * Reference to the XML parser calling the handler
+     *
+     * @var $parser
+    */
+    protected $parser; 
+
 	//------------------------------------------------------------
 	// METHODS
 	//------------------------------------------------------------

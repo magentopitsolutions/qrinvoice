@@ -59,6 +59,13 @@ abstract class Constraint
     public $payload;
 
     /**
+     * Groups
+     *
+     * @var $groups
+    */
+    protected $groups = [];
+
+    /**
      * Returns the name of the given error code.
      *
      * @param string $errorCode The error code
